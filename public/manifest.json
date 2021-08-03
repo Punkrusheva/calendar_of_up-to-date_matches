@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "Календарь матчей",
+  "description": "Календарь матчей",
+  "version": "1.0",
+  "browser_action": {
+        "default_popup": "index.html"
+  },
+  "content_security_policy": "script-src 'self' 'sha256-lqNi2MLXroT/iiroFBdikzFXfztNPTlsgU7zUskwsfY='; object-src 'self'",
+  "icons": { "16": "calendar.png",
+               "48": "calendar.png",
+               "128": "calendar.png"
+  }
+}
