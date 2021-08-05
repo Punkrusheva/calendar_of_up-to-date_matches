@@ -6,7 +6,7 @@
   "browser_action": {
         "default_popup": "index.html"
   },
-  "content_security_policy": "script-src 'self' 'sha256-lqNi2MLXroT/iiroFBdikzFXfztNPTlsgU7zUskwsfY='; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'sha256-2TPc95PsPfhcT27+tfhCTH5b4eJOawXynUWM9YEb95w='; object-src 'self'",
   "icons": { "16": "calendar.png",
                "48": "calendar.png",
                "128": "calendar.png"
