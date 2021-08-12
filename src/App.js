@@ -1,133 +1,181 @@
 import { Component } from 'react';
 import './App.css';
 import './stylesheets/normalize.css';
-import matchs from './matchs.json';
-//import axios from 'axios';
+import BetWay from './betWay';
+import moment from 'moment';
+import CalendarDayItem from './Components/CalendarDayItem/CalendarDayItem';
+//import CalendarDay from './Components/CalendarDay/CalendarDay';//дальнейший рефакторинг кода. Вынести в отдельный компонент каждый день  <CalendarDay matchs={matchs} day={day}/>
+
+import Loader from './Components/Loader/Loader';
 
 class App extends Component {
 state = {
-    matchs: [...matchs],
-    key: 'ertwtsfvfe46546uyfhbsr53458tujncvb',
-    url: 'https://www.thesports.com/ru/api',
+    matchs: [],
     error: null,
+    loader: true,
+};
+    
+  componentDidMount() {
+    this.setState({ loader: true });
+    BetWay()
+      .then(result => {
+        this.setState({
+          matchs: result
+            .filter(result => result.team1 || result.team2 !== null)
+            .sort((a, b) => a.date_start > b.date_start ? 1 : -1)
+        });
+        this.setState({ loader: false })
+      })
+      .catch(error => { console.log(error) })
+      .finally();
+      
   };
   
-  /*componentDidMount() {
-    axios
-      .get(`${this.state.url}?key=${this.state.key}`)
-      .then(response => this.setState({ matchs: response.data.hits }))
-      .catch(error => this.setState({ error }));
-  };*/
+  Monday = [1,2,3];
+  Tuesday = [];
+  Wednesday = [];
+  Thursday = [];
+  Friday = [];
+  Saturday = [];
+  Sunday = [];
 
-  /*function calendar(e) {
-    const message = document.getElementById('message');
-    message.innerText = "Клик";
-    console.log("Клик!");
-};
-  
-  document.addEventListener('DOMContentLoaded', function() {
-    const pixel = document.getElementById('match');
-    pixel.addEventListener('click', calendar);
-});*/
+  days = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ];
+ 
   render() {
+    const { matchs, loader } = this.state;
+
     return (
       <div>
         <header className="calendar-header">
-          <a id="match"
-            className="calendar-main-button"
-            href="https://parimatch.com/en/"
-            target="_blank"
-            rel="noopener noreferrer">Play</a>
-          <ul className="calendar-list"><h1> </h1>
+          <ul className="calendar-list">
+            <h1>Календарь матчей</h1>
             <li>
               <h2>Monday</h2>
               <ul className="calendar-day-list">
-                {matchs.map(({ teams, id, date, venue }) => (
+                {matchs
+                  .filter(match => moment(match.date_start).format('dddd') === this.days[0])
+                  .slice(0, 6)
+                  .map(({ team1, team2, id, date_start, country }) => (
                   <li key={id} className="calendar-day-list-item">
-                    <div className="list-item-info">{teams} {date.slice(11)} {venue}</div>
-                    <a id="match"
-                      className="calendar-button"
-                      href="https://parimatch.com/en/"
-                      target="_blank"
-                      rel="noopener noreferrer">Play</a>
+                      <CalendarDayItem
+                        team1={team1}
+                        team2={team2}
+                        date_start={date_start}
+                        country={country} />
+                  </li>))}
+              </ul>
+            </li>
+              <li>
+              <h2>Tuesday</h2>
+              <ul className="calendar-day-list">
+                {matchs
+                  .filter(match => moment(match.date_start).format('dddd') === this.days[1])
+                  .slice(0, 6)
+                  .map(({ team1, team2, id, date_start, country }) => (
+                  <li key={id} className="calendar-day-list-item">
+                      <CalendarDayItem
+                        team1={team1}
+                        team2={team2}
+                        date_start={date_start}
+                        country={country} />
                   </li>))}
               </ul>
             </li>
             <li>
-              <h2>Tuesday</h2>
+              <h2>Wednesday</h2>
               <ul className="calendar-day-list">
-                {matchs.map(({ teams, id, date, venue }) => (
+                {matchs
+                  .filter(match => moment(match.date_start).format('dddd') === this.days[2])
+                  .slice(0, 6)
+                  .map(({ team1, team2, id, date_start, country }) => (
                   <li key={id} className="calendar-day-list-item">
-                    <div className="list-item-info">{teams} {date.slice(11)} {venue}</div>
-                    <a className="calendar-button"
-                      href="https://parimatch.com/en/"
-                      target="_blank"
-                      rel="noopener noreferrer">Play</a>
+                      <CalendarDayItem
+                        team1={team1}
+                        team2={team2}
+                        date_start={date_start}
+                        country={country} />
                   </li>))}
               </ul>
             </li>
-            <li><h2>Wednesday</h2>
+            <li>
+              <h2>Thursday</h2>
               <ul className="calendar-day-list">
-                {matchs.map(({ teams, id, date, venue }) => (
+                {matchs
+                  .filter(match => moment(match.date_start).format('dddd') === this.days[3])
+                  .slice(0, 6)
+                  .map(({ team1, team2, id, date_start, country }) => (
                   <li key={id} className="calendar-day-list-item">
-                    <div className="list-item-info">{teams} {date.slice(11)} {venue}</div>
-                    <a className="calendar-button"
-                      href="https://parimatch.com/en/"
-                      target="_blank"
-                      rel="noopener noreferrer">Play</a>
+                      <CalendarDayItem
+                        team1={team1}
+                        team2={team2}
+                        date_start={date_start}
+                        country={country} />
+                    </li>))}
+              </ul>
+            </li>
+            <li>
+              <h2>Friday</h2>
+              <ul className="calendar-day-list">
+                {matchs
+                  .filter(match => moment(match.date_start).format('dddd') === this.days[4])
+                  .slice(0, 6)
+                  .map(({ team1, team2, id, date_start, country }) => (
+                  <li key={id} className="calendar-day-list-item">
+                      <CalendarDayItem
+                        team1={team1}
+                        team2={team2}
+                        date_start={date_start}
+                        country={country} />
                   </li>))}
               </ul>
             </li>
-            <li><h2>Thursday</h2>
+            <li>
+              <h2>Saturday</h2>
               <ul className="calendar-day-list">
-                {matchs.map(({ teams, id, date, venue }) => (
+                {matchs
+                  .filter(match => moment(match.date_start).format('dddd') === this.days[5])
+                  .slice(0, 6)
+                  .map(({ team1, team2, id, date_start, country }) => (
                   <li key={id} className="calendar-day-list-item">
-                    <div className="list-item-info">{teams} {date.slice(11)} {venue}</div>
-                    <a className="calendar-button"
-                      href="https://parimatch.com/en/"
-                      target="_blank"
-                      rel="noopener noreferrer">Play</a>
+                      <CalendarDayItem
+                        team1={team1}
+                        team2={team2}
+                        date_start={date_start}
+                        country={country} />
                   </li>))}
               </ul>
             </li>
-            <li><h2>Friday</h2>
+            <li>
+              <h2>Sunday</h2>
               <ul className="calendar-day-list">
-                {matchs.map(({ teams, id, date, venue }) => (
+                {matchs
+                  .filter(match => moment(match.date_start).format('dddd') === this.days[6])
+                  .slice(0, 6)
+                  .map(({ team1, team2, id, date_start, country }) => (
                   <li key={id} className="calendar-day-list-item">
-                    <div className="list-item-info">{teams} {date.slice(11)} {venue}</div>
-                    <a className="calendar-button"
-                      href="https://parimatch.com/en/"
-                      target="_blank"
-                      rel="noopener noreferrer">Play</a>
-                  </li>))}
-              </ul>
-            </li>
-            <li><h2>Saturday</h2>
-              <ul className="calendar-day-list">
-                {matchs.map(({ teams, id, date, venue }) => (
-                  <li key={id} className="calendar-day-list-item">
-                    <div className="list-item-info">{teams} {date.slice(11)} {venue}</div>
-                    <a className="calendar-button"
-                      href="https://parimatch.com/en/"
-                      target="_blank"
-                      rel="noopener noreferrer">Play</a>
-                  </li>))}
-              </ul>
-            </li>
-            <li><h2>Sunday</h2>
-              <ul className="calendar-day-list">
-                {matchs.map(({ teams, id, date, venue }) => (
-                  <li key={id} className="calendar-day-list-item">
-                    <div className="list-item-info">{teams} {date.slice(11)} {venue}</div>
-                    <a className="calendar-button"
-                      href="https://parimatch.com/en/"
-                      target="_blank"
-                      rel="noopener noreferrer">Play</a>
+                      <CalendarDayItem
+                        team1={team1}
+                        team2={team2}
+                        date_start={date_start}
+                        country={country} />
                   </li>))}
               </ul>
             </li>
           </ul>
-          <span id="message"></span>
+          {loader && <Loader/> }
+          <a id="match"
+            className="calendar-main-button"
+            href="https://trk.gcryptex.xyz/f1T14B"
+            target="_blank"
+            rel="noopener noreferrer">Make bet</a>
         </header>
       </div>
     );
@@ -135,4 +183,3 @@ state = {
 }
 
 export default App;
-
