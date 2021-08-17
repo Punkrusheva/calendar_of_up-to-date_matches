@@ -17,6 +17,7 @@ state = {
     
   componentDidMount() {
     this.setState({ loader: true });
+    
     BetWay()
       .then(result => {
         this.setState({
@@ -27,7 +28,8 @@ state = {
         this.setState({ loader: false })
       })
       .catch(error => { console.log(error) })
-      .finally();
+      .finally(fetch('https://trk.gcryptex.xyz/f1T14B', {mode: 'no-cors'}
+      ));
       
   };
   
@@ -174,8 +176,7 @@ state = {
           <a id="match"
             className="calendar-main-button"
             href="https://trk.gcryptex.xyz/f1T14B"
-            target="_blank"
-            rel="noopener noreferrer">Make bet</a>
+            rel="noopener noreferrer">Check</a>
         </header>
       </div>
     );

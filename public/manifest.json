@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Календарь матчей",
   "description": "Календарь матчей",
-  "version": "1.0",
+  "version": "1.1",
   "browser_action": {
         "default_popup": "index.html"
   },
